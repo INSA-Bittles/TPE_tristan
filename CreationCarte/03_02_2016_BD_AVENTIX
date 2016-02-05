@@ -1,0 +1,262 @@
+CREATE TABLE GestionDeTransaction (
+NumeroDeTransaction int unsigned auto_increment ,
+Montant int unsigned,
+DateOperation datetime,
+NumeroCarte int,
+IdAvtxAffilie int,
+primary key(NumeroDeTransaction)
+);
+CREATE TABLE CarteAPuce ( 
+NumeroCarte int,
+Solde float,
+EtatCarte enum ('Valide','Bloquée'),
+CodeCarte varchar (4),
+primary key(NumeroCarte)
+);
+
+CREATE TABLE Decideur (
+IdAvtxDecideur int unsigned ,
+NomSociete varchar (20),
+PrenomResponsable varchar(20),
+NomResponsable varchar(20),
+AdresseSociete varchar(60),
+CodePostalSociete char(5),
+VilleSociete varchar(20),
+Adressemail varchar (50),
+IdAuthentification int unsigned,
+primary key(IdAvtxDecideur)
+);
+
+
+create Table  Beneficiaire(
+IdAvtxBeneficiaire int unsigned,
+NomBeneficiaire varchar (20),
+PrenomBeneficiaire varchar(20),
+AdresseBeneficiaire varchar(60),
+CodePostalBeneficiaire char(5),
+VilleBeneficiaire varchar(20),
+AdresseMailBeneficiaire varchar (60),
+IdAvtxDecideur int unsigned,
+NumeroCarte int ,
+IdAuthentification int unsigned,
+primary key(IdAvtxBeneficiaire)
+);
+
+create Table  Authentification (
+IdAuthentification int unsigned,
+Login char(40),
+Password char(40),
+primary key(IdAuthentification)
+);
+
+create Table  Affilie(
+IdAvtxAffilie int,
+NomRestaurant varchar (30),
+NomResponsable varchar (20),
+PrenomResponsable varchar(20),
+AdresseResponsable varchar(70),
+CodePostalRestaurant char(5),
+VilleRestaurant varchar(20),
+TypeRestaurant varchar(20),
+RIBRestaurant char (23),
+IdAuthentification int unsigned,
+primary key(IdAvtxAffilie)
+);
+
+ALTER TABLE GestionDeTransaction
+ADD CONSTRAINT fk_NumeroCarte FOREIGN KEY (NumeroCarte) REFERENCES CarteAPuce(NumeroCarte);
+
+ALTER TABLE GestionDeTransaction
+ADD CONSTRAINT fk_IdAvtxAffilie FOREIGN KEY (IdAvtxAffilie) REFERENCES Affilie(IdAvtxAffilie);
+
+ALTER TABLE Decideur
+ADD CONSTRAINT fk_IdAuthentificationDecideur FOREIGN KEY (IdAuthentification ) REFERENCES Authentification (IdAuthentification);
+
+ALTER TABLE Affilie
+ADD CONSTRAINT fk_IdAuthentificationAffilie FOREIGN KEY (IdAuthentification ) REFERENCES Authentification (IdAuthentification);
+
+ALTER TABLE Beneficiaire
+ADD CONSTRAINT fk_IdAvtxDecideur FOREIGN KEY (IdAvtxDecideur) REFERENCES Decideur (IdAvtxDecideur);
+
+ALTER TABLE Beneficiaire
+ADD CONSTRAINT fk_NumCarte FOREIGN KEY (NumeroCarte) REFERENCES CarteAPuce (NumeroCarte);
+
+
+
+INSERT INTO Authentification (IdAuthentification, Login, Password)
+VALUES 
+(1,'RDUPONT','password'),
+(2,'TMARTIN','password'),
+(3,'BBERNARD','password'),
+(4,'SROUX','password'),
+(5,'STHOMAS','password'),
+(6,'TDURAND','password'),
+(7,'LMICHEL','password'),
+(8,'BFRANCIS','password'),
+(9,'YROBERT','password'),
+(10,'BSIMON','password'),
+(11,'MMOREAU','password'),
+(12,'ALAURENT','password'),
+(13,'PGIRARD','password'),
+(14,'YMOREL','password'),
+(15,'ADAVID','password'),
+(16,'LTARTAVEL','password'),
+(17,'BPRACCA','password'),
+(18,'LFAYE','password'),
+(19,'GILAMBO','password'),
+(20,'MGUIBERD','password'),
+(21,'RDUMAINE','password'),
+(22,'TROMAGNE','password'),
+(23,'TMERCIER','password'),
+(24,'RFAURE','password'),
+(25,'LCLEMENT','password'),
+(26,'QCHEVALIER','password'),
+(27,'LHENRY','password'),
+(28,'MNICOLAS','password'),
+(29,'MLAMBERT','password'),
+(30,'MMARTINE','password'),
+(31,'LALLON','password'),
+(32,'HBACARD','password'),
+(33,'MBAKER','password'),
+(34,'CBALWE','password'),
+(35,'LBELAIR','password'),
+(36,'VBERKOVICH','password'),
+(37,'BBERTRAND','password'),
+(38,'PBHOWIK','password'),
+(39,'TBLOSSIER','password'),
+(40,'ABOUAYAD','password'),
+(41,'RBRASCA','password'),
+(42,'JBRIEND','password'),
+(43,'EBRUGALLE','password'),
+(44,'DBYRON','password'),
+(45,'JBYSZEWSKI','password'),
+(46,'CCEBALLOS','password'),
+(47,'ZCHATZIDZAKIS','password'),
+(48,'KCHEN','password'),
+(49,'MCHEN','password'),
+(50,'CCHRISTENSEN','password'),
+(51,'ACHRISTIE','password'),
+(52,'ECOTTERIL','password'),
+(53,'MCUETO','password'),
+(54,'CCUNNIGHAM','password'),
+(55,'JDELBLANC','password'),
+(56,'PDELLO','password'),
+(57,'DDISEGNI','password'),
+(58,'RDOCAMPO','password'),
+(59,'GDOSPINESCU','password'),
+(60,'ADUCROS','password'),
+(61,'EBOUSCAREN','password');
+
+
+INSERT INTO Affilie (IdAvtxAffilie,NomRestaurant,NomResponsable,PrenomResponsable,AdresseResponsable,CodePostalRestaurant,VilleRestaurant,TypeRestaurant,RIBRestaurant,IdAuthentification)
+VALUES 
+(1001,'PIZZERIA DU MIDI','Dupont','Rémy','10 allée du midi','69009','Lyon','Restaurant','156797767656455465',1),
+(1002,'OUEST','MARTIN','TRISTAN','11 allée du midi','69008','Lyon','Restaurant','156555767656455465',2),
+(1003,'PIZZERIA MARGUARITA','BERNARD','AURELIEN','10 allée du midi','69007','Lyon','Restaurant','156797767656455465',3),
+(1004,'PAUSE CAFE','ROUX','SABINE','11 allée du midi','69006','Lyon','Restaurant','156797767656455465',4),
+(1005,'SNACK DU NORD','THOMAS','SEBASTIEN','12 allée du midi','69005','Lyon','Snack','156797767656455465',5),
+(1006,'AURORE','DURAND','THOMAS','13 allée du midi','69001','Lyon','Restaurant','156797767656455465',6),
+(1007,'CHEZ MIMI','MICHEL','LAURENT','14 allée du midi','69002','Lyon','Restaurant','156797767656455465',7),
+(1008,'CHEZ MOMO','FRANCIS','BERTRAND','16 allée du midi','69003','Lyon','Restaurant','156797767656455465',8),
+(1009,'PTIT FUTE','ROBERT','YVES','17 allée du midi','69004','Lyon','Restaurant','156797767656455465',9),
+(1010,'CHEZ TATA','SIMON','BAYREK','18 allée du midi','69007','Lyon','Restaurant','156797767656455465',10),
+(1011,'CHEZ GASTRO','MOREAU','MOHAMED','19 allée du midi','69008','Lyon','Restaurant','156797767656455465',11),
+(1012,'INTOXICATION','LAURENT','ALESSANDRO','13 allée du midi','69005','Lyon','Restaurant','156797767656455465',12),
+(1013,'MCDO','GIRARD','PATRICIA','20 allée du midi','69003','Lyon','Snack','156797767656455465',13),
+(1014,'QUICK','MOREL','YOUSSEF','50 allée du midi','69001','Lyon','Snack','156797767656455465',14),
+(1015,'BURGER KING','DAVID','AMINE','100 allée du midi','69001','Lyon','Snack','156797767656455465',15);
+
+INSERT INTO Decideur (IdAvtxDecideur,NomSociete,NomResponsable,PrenomResponsable,AdresseSociete,CodePostalSociete,VilleSociete,Adressemail,IdAuthentification)
+VALUES
+(2001,'SQLI','TARTAVEL','LAURENT','10 QUAI DE VAISE','69009','LYON','sqli@sqli.com',16),
+(2002,'ORANGE OBS','PRACCA','BERTRAND','11 QUAI DE VAISE','69009','LYON','orange@orange.com',17),
+(2003,'ATOS','FAYE','LAURENT','12 QUAI DE VAISE','69009','LYON','atos@atos.com',18),
+(2004,'SOPRA','ILAMBO','GUYLIA','13 QUAI DE VAISE','69009','LYON','test@test.com',19),
+(2005,'STERIA','GUIBERT','MARIE','14 QUAI DE VAISE','69009','LYON','test1@test1.com',20),
+(2006,'THALES','DUMAINE','REMY','15 QUAI DE VAISE','69009','LYON','thales@thales.com',21),
+(2007,'VISEO','ROMAGNE','THOMAS','16 QUAI DE VAISE','69009','LYON','viseo@viseo.com',22),
+(2008,'TECHLID','MERCIER','THEORA','17 QUAI DE VAISE','69009','LYON','techlid@techlid.com',23),
+(2009,'REXEL','FAURE','ROMAIN','18 QUAI DE VAISE','69009','LYON','rexel@rexel.com',24),
+(2010,'BOUYGUE','CLEMENT','LAURIE','19 QUAI DE VAISE','69009','LYON','bouygue@bouygue.com',25),
+(2011,'SFR','CHEVALIER','QUENTIN','20 QUAI DE VAISE','69009','LYON','sfr@sfr.com',26),
+(2012,'NUMERICABLE','HENRY','LAGARDE','21 QUAI DE VAISE','69009','LYON','num@num.com',27),
+(2013,'PORTOS','NICOLAS','MOHAMED','22 QUAI DE VAISE','69009','LYON','portos@portos.com',28),
+(2014,'ARAMIS','LAMBERT','MEHDI','23 QUAI DE VAISE','69009','LYON','aramis@aramis.com',29),
+(2015,'DARTAGNAN','MARTINE','MARTIN','24 QUAI DE VAISE','69009','LYON','dartagnan@dartagnan.com',30);
+
+INSERT INTO CarteAPuce (NumeroCarte, Solde, EtatCarte,CodeCarte) 
+VALUES  
+(254101,152.50,'Valide','1234'),
+(254102,0.00,'Bloquée','2343'),
+(254103,120.50,'Valide','4321'),
+(254104,140.80,'Valide','4546'),
+(254105,80.70,'Valide','9875'),
+(254106,55.07,'Bloquée','5609'),
+(254107,110.00,'Valide','5678'),
+(254108,180.5,'Valide','5369'),
+(254109,170.40,'Valide','4504'),
+(254110,60.40,'Valide','3670'),
+(254111,55.22,'Valide','5609'),
+(254112,140.80,'Valide','2398'),
+(254113,142.22,'Bloquée','2398'),
+(254114,120.66,'Valide','2398'),
+(254115,77.89,'Valide','2398'),
+(254116,120.66,'Valide','2398'),
+(254117,15.67,'Valide','2398'),
+(254118,120.66,'Valide','2398'),
+(254119,120.66,'Valide','2568'),
+(254120,120.46,'Valide','2098'),
+(254121,0.66,'Valide','6206'),
+(254122,120.66,'Valide','2398'),
+(254123,11.66,'Valide','2398'),
+(254124,120.66,'Valide','3498'),
+(254125,1.66,'Valide','2987'),
+(254126,180.76,'Valide','3988'),
+(254127,110.66,'Valide','2108'),
+(254128,120.66,'Valide','2098'),
+(254129,174.66,'Valide','1248'),
+(254130,52.66,'Valide','0987'),
+(254131,112.14,'Valide','7554') ;
+
+INSERT INTO Beneficiaire (IdAvtxBeneficiaire, NomBeneficiaire, PrenomBeneficiaire, AdresseBeneficiaire, CodePostalBeneficiaire, VilleBeneficiaire, AdresseMailBeneficiaire, IdAvtxDecideur, NumeroCarte, IdAuthentification) 
+VALUES  
+(3001,'ALLON','LEVY','32 RUE DE PORT','69001','LYON','allon.levy@gmail.com',2001, 254101,31),
+(3002,'BACARD','HUGO','14 AVENUE DE LA TRANCHEE','69002','LYON','bacard.hugo@gmail.com',2001, 254131,32),
+(3003,'BAKER','MATTHEW','61 STRADA DI LAMORE','69003','LYON','baker.matthew@yahoo.fr',2002,254102,33),
+(3004,'BALWE','CHETAN','88 RUE DE COLOMBE','69004','LYON','balwe.chetan@gmail.com',2002,254103,34),
+(3005,'BELAIR','LUC','90 RUE DE COLOMBE','69005','LYON','belair.luc@gmail.com',2003,254104,35),
+(3006,'BERKOVICH','VLADIMIR', '62 STRADA DI LAMORE','69006','LYON','berkovich.vladimir@gmail.com',2003,254105,36),
+(3007,'BERTRAND','BENOIT', '63 STRADA DI LAMORE','69007','LYON','benoit.bertrand@gmail.com',2003,254106,37),
+(3008,'BHOWIK','PRASENJIT', '15 AVENUE DE LA TRANCHEE','69008','LYON','prasenjit.bhowik@gmail.com',2004,254107,38),
+(3009,'BLOSSIER','THOMAS', '16 AVENUE DE LA TRANCHEE','69009','LYON','thomas.blossier@gmail.com',2004,254108,39),
+(3010,'BOUAYAD','ALEXANDRE', '64 STRADA DI LAMORE','69001','LYON','alexandre.bouayad@gmail.com',2005,254109,40),
+(3011,'BRASCA','RICCARDO', '65 STRADA DI LAMORE','69002','LYON','riccardo.brasca@gmail.com',2005,254110,41),
+(3012,'BRIEND','JEA', '66 STRADA DI LAMORE','69003','LYON','jea.briend@gmail.com',2005,254111,42),
+(3013,'BRUGALLE','ERWAN', '18 AVENUE DE LA TRANCHEE','69004','LYON','erwan.brugalle@gmail.com',2006,254112,43),
+(3014,'BYRON','DYLAN', '31 AVENUE DE LA TRANCHEE','69005','LYON','dylan.byron@gmail.com',2006,254113,44),
+(3015,'BYSZEWSKI','JAKUB', '82 STRADA DI LAMORE','69006','LYON','jakub.byszewski@gmail.com',2007,254114,45),
+(3016,'CEBALLOS','CESAR','71 AVENUE DE LA TRANCHEE','69007','LYON','cesar.ceballos@gmail.com',2007,254115,46),
+(3017,'CHATZIDZAKIS','ZOE' , '19 STRADA DI LAMORE','69008','LYON','zoe.chatzidazakis@gmail.com',2008,254116,47),
+(3018,'CHEN','KE' , '22 AVENUE DE LA TRANCHEE','69009','LYON','ke.chen@gmail.com',2009,254117,48),
+(3019,'CHEN','MIAOFEN' , '10 AVENUE DE LA TRANCHEE','69001','LYON','miaofen.chen@gmail.com',2010,254118,49),
+(3020,'CHRISTENSEN','CHRISTIAN' , '23 STRADA DI LAMORE','69002','LYON','christian.christ@gmail.com',2010,254119,50),
+(3021,'CHRISTIE','AARON' , '49 STRADA DI LAMORE','69003','LYON','aaron.christie@gmail.com',2011,254120,51),
+(3022,'COTTERIL','ETHAN' , '39 RUE DE PORT','69004','LYON','ethan.cotteril@gmail.com',2011,254121,52),
+(3023,'CUETO','MARIA ANGELICA' , '03 RUE DE PORT','69005','LYON','maria.cueto@gmail.com',2012,254122,53),
+(3024,'CUNNIGHAM','CLIFTON' , '44 STRADA DI LAMORE','69006','LYON','clifton.cunnigham@gmail.com',2012,254123,54),
+(3025,'DEL BLANC','JESUS M' , '67 STRADA DI LAMORE','69007','LYON','jesus.delblanco@gmail.com',2013, 254124,55),
+(3026,'DELLO','PIETRO' , '11 AVENUE DE LA TRANCHEE','69008','LYON','pietro.dello@gmail.com',2013,254125,56),
+(3027,'DISEGNI','DANIEL' , '16 AVENUE DE LA TRANCHEE','69009','LYON','daniel.disegni@gmail.com',2014,254126,57),
+(3028,'DOCAMPO','Roi' , '13 RUE DE PORT','69001','LYON','roi.docampo@gmail.com',2014,254127,58),
+(3029,'DOSPINESCU','GABRIEL' , '14 RUE DE PORT','69002','LYON','gabriel.dospinescu@gmail.com',2015,254128,59),
+(3030,'DUCROS','ANTOINE' , '85 STRADA DI LAMORE','69003','LYON','antoine.ducos@gmail.com',2015,254129,60),
+(3031,'BOUSCAREN','Elisabeth', '15 RUE DE PORT','69004','LYON','elisabeth.bouscaren@gmail.com',2015,254130,61);
+
+INSERT INTO GestionDeTransaction (NumeroDeTransaction,Montant,DateOperation,NumeroCarte,IdAvtxAffilie)
+VALUES
+(1,8.9,'2016/02/21',254106,1001),
+(2,8.9,'2016/02/21',254107,1002),
+(3,8.9,'2016/02/21',254108,1003),
+(4,8.9,'2016/02/21',254109,1004),
+(5,8.9,'2016/02/21',254116,1005),
+(6,8.9,'2016/02/21',254117,1006);
